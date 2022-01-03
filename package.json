@@ -1,10 +1,10 @@
 {
-  "name": "@pixi/sound",
+  "name": "@drmer/sound",
   "version": "4.1.0",
   "description": "WebAudio API playback library with filters",
-  "main": "dist/pixi-sound.cjs.js",
-  "module": "dist/pixi-sound.esm.js",
-  "types": "dist/pixi-sound.d.ts",
+  "main": "dist/drmer-sound.cjs.js",
+  "module": "dist/drmer-sound.esm.js",
+  "types": "dist/drmer-sound.d.ts",
   "scripts": {
     "test": "floss -p test --require ts-node/register -- --autoplay-policy=no-user-gesture-required",
     "coverage": "nyc floss -p test --require ts-node/register -- --autoplay-policy=no-user-gesture-required",
@@ -25,7 +25,7 @@
     "docs": "webdoc -c config/webdoc.json -r README.md",
     "predeploy": "run-s docs",
     "predeploy:ci": "rimraf deploy/**",
-    "deploy:ci": "mkdirp deploy && copyfiles \"{dist,examples,docs,coverage}/**\" deploy && copyfiles -f dist/pixi-sound.js* deploy",
+    "deploy:ci": "mkdirp deploy && copyfiles \"{dist,examples,docs,coverage}/**\" deploy && copyfiles -f dist/drmer-sound.js* deploy",
     "deploy": "gh-pages -d . -s \"{dist,examples,docs}/**\"",
     "examples": "http-server . -a localhost -o",
     "publish:patch": "npm version patch && run-s publish:skip",
@@ -43,7 +43,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pixijs/sound.git"
+    "url": "git+https://git.drmer.net/drmer/sound.git"
   },
   "publishConfig": {
     "access": "public"
@@ -59,10 +59,6 @@
   ],
   "author": "Matt Karl @bigtimebuddy",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pixijs/sound/issues"
-  },
-  "homepage": "https://github.com/pixijs/sound#readme",
   "pre-commit": [
     "lint",
     "types"

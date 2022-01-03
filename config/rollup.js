@@ -24,7 +24,7 @@ const external = Object.keys(pkg.peerDependencies);
 const compiled = (new Date()).toUTCString().replace(/GMT/g, "UTC");
 const banner = `/*!
  * ${pkg.name} - v${pkg.version}
- * https://github.com/pixijs/pixi-sound
+ * https://git.drmer.net/drmer/sound
  * Compiled ${compiled}
  *
  * ${pkg.name} is licensed under the MIT license.
@@ -46,14 +46,14 @@ export default [
                 freeze: false,
                 sourcemap,
                 format: "cjs",
-                file: "dist/pixi-sound.cjs.js",
+                file: "dist/drmer-sound.cjs.js",
             },
             {
                 banner,
                 freeze: false,
                 sourcemap,
                 format: "esm",
-                file: "dist/pixi-sound.esm.js",
+                file: "dist/drmer-sound.esm.js",
             },
         ],
     },
@@ -68,7 +68,7 @@ export default [
             name: "PIXI.sound",
             exports: 'default',
             sourcemap,
-            file: "dist/pixi-sound.js",
+            file: "dist/drmer-sound.js",
             globals: {
                 "@pixi/loaders": "PIXI",
                 "@pixi/core": "PIXI",
