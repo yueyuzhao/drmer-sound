@@ -1,5 +1,5 @@
-import { getInstance } from '../instance';
 import { Filter } from './Filter';
+import { WebAudioContext } from '../webaudio/WebAudioContext';
 
 /**
  * Combine all channels into mono channel.
@@ -12,14 +12,17 @@ class MonoFilter extends Filter
     /** Merger node */
     private _merger: ChannelMergerNode;
 
-    constructor()
+    /**
+     * @param {WebAudioContext} context - The audio context
+     */
+    constructor(context: WebAudioContext)
     {
-        const audioContext: AudioContext = getInstance().context.audioContext;
+        const audioContext: AudioContext = context.audioContext;
         const splitter: ChannelSplitterNode = audioContext.createChannelSplitter();
         const merger: ChannelMergerNode = audioContext.createChannelMerger();
 
         merger.connect(splitter);
-        super(merger, splitter);
+        super(context, merger, splitter);
         this._merger = merger;
     }
 

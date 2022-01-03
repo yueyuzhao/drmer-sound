@@ -3,6 +3,7 @@ import { IMedia, IMediaContext, IMediaInstance } from './interfaces';
 import { SoundSprite, SoundSpriteData, SoundSprites } from './SoundSprite';
 import { resolveUrl } from './utils/resolveUrl';
 import { WebAudioMedia } from './webaudio/WebAudioMedia';
+import { WebAudioContext } from './webaudio/WebAudioContext';
 
 /**
  * Options to use for creating sounds.
@@ -70,6 +71,11 @@ interface Options {
      * @type {Object<string, SoundSpriteData>}
      */
     sprites?: {[id: string]: SoundSpriteData};
+
+    /**
+     * The audio context
+     */
+    context?: IMediaContext;
 }
 
 /**
@@ -263,6 +269,13 @@ class Sound
     private _speed: number;
 
     /**
+     * Reference to the sound context.
+     * @type {IMediaContext}
+     * @private
+     */
+    private _context: IMediaContext;
+
+    /**
      * Create a new sound instance from source.
      * @param {ArrayBuffer|AudioBuffer|String|Options|HTMLAudioElement} source - Either the path or url to the source file.
      *        or the object of options to use.
@@ -296,7 +309,13 @@ class Sound
             speed: 1,
             complete: null,
             loaded: null,
+            context: null,
             loop: false, ...options };
+
+        if (options.context === null)
+        {
+            options.context = new WebAudioContext();
+        }
 
         // Resolve url in-case it has a special format
         if (options.url)
@@ -317,6 +336,7 @@ class Sound
      */
     constructor(media: IMedia, options: Options)
     {
+        this._context = options.context;
         this.media = media;
         this.options = options;
         this._instances = [];
@@ -354,7 +374,7 @@ class Sound
      */
     public get context(): IMediaContext
     {
-        return getInstance().context;
+        return this._context;
     }
 
     /**

@@ -3,7 +3,7 @@ import { EventEmitter } from '@pixi/utils';
 import { IMediaInstance } from '../interfaces';
 import { PlayOptions } from '../Sound';
 import { WebAudioMedia } from './WebAudioMedia';
-import { WebAudioUtils } from './WebAudioUtils';
+import { WebAudioContext } from './WebAudioContext';
 
 let id = 0;
 
@@ -199,6 +199,11 @@ class WebAudioInstance extends EventEmitter implements IMediaInstance
         this.refresh();
     }
 
+    public get context(): WebAudioContext
+    {
+        return this._media.context;
+    }
+
     /** Refresh loop, volume and speed based on changes to parent */
     public refresh(): void
     {
@@ -218,10 +223,10 @@ class WebAudioInstance extends EventEmitter implements IMediaInstance
         const soundVolume = sound.volume * (sound.muted ? 0 : 1);
         const instanceVolume = this._volume * (this._muted ? 0 : 1);
 
-        WebAudioUtils.setParamValue(this._gain.gain, instanceVolume * soundVolume * globalVolume);
+        this.context.setParamValue(this._gain.gain, instanceVolume * soundVolume * globalVolume);
 
         // Update the speed
-        WebAudioUtils.setParamValue(this._source.playbackRate, this._speed * sound.speed * global.speed);
+        this.context.setParamValue(this._source.playbackRate, this._speed * sound.speed * global.speed);
     }
 
     /** Handle changes in paused state, either globally or sound or instance */

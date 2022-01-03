@@ -201,6 +201,14 @@ PIXI.sound.play('mechanical');</code></pre>
 });
 console.log('Exists?', PIXI.sound.exists('boing'));
 console.log('Sound: ', PIXI.sound.find('boing'));</code></pre>
+
+                <p>There's a utility method for playing a sound once. It is immediately destroyed and after this.</p>
+                <button class="btn btn-danger btn-lg pull-right play" data-code="#autoplay2">
+                    <span class="glyphicon glyphicon-play"></span> Run
+                </button>
+                <pre><code id="autoplay2" class="javascript">PIXI.sound.playOnce('resources/mechanical.mp3', function() {
+    console.log('Sound finished');
+});</code></pre>
             </div>
             <div class="tab-pane fade" id="section-utils">
                 <h3>Utilities</h3>
@@ -243,14 +251,6 @@ console.log('Sound: ', PIXI.sound.find('boing'));</code></pre>
                 </button>
                 <pre><code id="sine-tone" class="javascript">const sound = PIXI.sound.utils.sineTone(523.251, 3);
 sound.play();</code></pre>
-
-                <p>There's a utility method for playing a sound once. It is immediately destroyed and after this.</p>
-                <button class="btn btn-danger btn-lg pull-right play" data-code="#autoplay2">
-                    <span class="glyphicon glyphicon-play"></span> Run
-                </button>
-                <pre><code id="autoplay2" class="javascript">PIXI.sound.utils.playOnce('resources/mechanical.mp3', function() {
-    console.log('Sound finished');
-});</code></pre>
             </div>
             <div class="tab-pane fade" id="section-stream">
                 <h3>Stream</h3>
@@ -261,7 +261,8 @@ sound.play();</code></pre>
                 </button>
                 <pre><code id="stream" class="javascript">const stream = new MediaStream();
 const recorder = new MediaRecorder(stream);
-const streamFilter = new PIXI.sound.filters.StreamFilter();
+const context = PIXI.sound.context;
+const streamFilter = new PIXI.sound.filters.StreamFilter(context);
 
 // attach audio stream
 streamFilter.stream.getAudioTracks().forEach(function (track) {
@@ -277,17 +278,15 @@ recorder.ondataavailable = function (e) {
       type: recorder.mimeType,
     });
     // You can download the audio file or upload the Blob to server
-    const url = URL.createObjectURL(blob);
-    PIXI.sound.filtersAll = []; // remove filters for recorded sound
     PIXI.sound.Sound.from({
-        url: url,
+        url: URL.createObjectURL(blob),
         autoPlay: true,
     });
 };
 // apply filters
 PIXI.sound.filtersAll = [
-    new PIXI.sound.filters.TelephoneFilter(),
-    new PIXI.sound.filters.StereoFilter(),
+    new PIXI.sound.filters.TelephoneFilter(context),
+    new PIXI.sound.filters.StereoFilter(context, -1),
     // You need to place StreamFilter at the end of filters list,
     // so that the stream will have the effect of other filters.
     streamFilter,
@@ -296,6 +295,7 @@ PIXI.sound.filtersAll = [
 PIXI.sound.Sound.from({
     url: 'resources/boing.mp3',
     autoPlay: true,
+    context: context,
     loaded: function () {
         recorder.start();
     },

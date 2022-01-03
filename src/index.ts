@@ -1,12 +1,9 @@
 import { Loader } from '@pixi/loaders';
-import { setInstance } from './instance';
+import { sound } from './instance';
 import { SoundLoader } from './SoundLoader';
-import { SoundLibrary } from './SoundLibrary';
 import filters from './filters';
 import webaudio from './webaudio';
 import utils from './utils';
-
-const sound = setInstance(new SoundLibrary());
 
 // Add the loader plugin
 Loader.registerPlugin(SoundLoader);

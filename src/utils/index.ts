@@ -1,4 +1,3 @@
-import { playOnce } from './playOnce';
 import { render } from './render';
 import { resolveUrl } from './resolveUrl';
 import { sineTone } from './sineTone';
@@ -9,7 +8,6 @@ import { supported, extensions, validateFormats } from './supported';
  * @namespace utils
  */
 export default {
-    playOnce,
     render,
     resolveUrl,
     sineTone,

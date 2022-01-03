@@ -46,6 +46,7 @@ catch (e)
 }
 
 const checks = $$('.filter');
+const context = PIXI.sound.context;
 
 for (let k = 0; k < checks.length; k++)
 {
@@ -53,7 +54,7 @@ for (let k = 0; k < checks.length; k++)
 
     controller = {
         name: filter.getAttribute('data-id'),
-        filter: new PIXI.sound.filters[filter.getAttribute('data-id')](),
+        filter: new PIXI.sound.filters[filter.getAttribute('data-id')](context),
         index: k,
         enabled: false,
     };
@@ -84,7 +85,7 @@ function refresh()
         }
     }
 
-    let buffer = 'const sound = PIXI.sound.add(\'music\', \'resources/musical.mp3\');\n';
+    let buffer = `const sound = PIXI.sound.add(\'music\', \'resources/musical.mp3\');\n`;
     const inserts = [];
 
     sound.filters = allFilters.sort(function (a, b)
@@ -112,12 +113,13 @@ function refresh()
             }
             args[parseInt(range1.getAttribute('data-index'), 10)] = range1.value;
         }
-        inserts.push(`new PIXI.sound.filters.${ctrl.name}(${show ? args.join(', ') : ''})`);
+        inserts.push(`new PIXI.sound.filters.${ctrl.name}(context${show ? `, ${args.join(', ')}` : ''})`);
 
         return ctrl.filter;
     });
     if (inserts.length)
     {
+        buffer += 'const context = PIXI.sound.context;\n';
         const nl = inserts.length > 1 ? '\n' : '';
         const spacer = inserts.length > 1 ? '  ' : '';
 

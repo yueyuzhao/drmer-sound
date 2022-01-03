@@ -225,7 +225,7 @@ describe(`PIXI.sound`, function ()
 
     it('sound play once a file', function (done)
     {
-        const alias = utils.playOnce(manifest.silence, (err) =>
+        const alias = sound.playOnce(manifest.silence, (err) =>
         {
             expect(alias).to.be.ok;
             expect(sound.exists(alias)).to.be.false;

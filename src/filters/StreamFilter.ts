@@ -1,9 +1,9 @@
-import { getInstance } from '../instance';
 import { Filter } from './Filter';
+import { WebAudioContext } from '../webaudio/WebAudioContext';
 
 /**
- * Export a MediaStream to be recorded
- *
+ * This filter does nothing to audio
+ * but exports a MediaStream of the audio context
  * @class
  * @memberof filters
  */
@@ -11,13 +11,16 @@ class StreamFilter extends Filter
 {
     private _stream: MediaStream;
 
-    constructor()
+    /**
+     * @param {WebAudioContext} context - The audio context
+     */
+    constructor(context: WebAudioContext)
     {
-        const audioContext: AudioContext = getInstance().context.audioContext;
+        const audioContext: AudioContext = context.audioContext;
         const destination: MediaStreamAudioDestinationNode = audioContext.createMediaStreamDestination();
         const source: MediaStreamAudioSourceNode = audioContext.createMediaStreamSource(destination.stream);
 
-        super(destination, source);
+        super(context, destination, source);
         this._stream = destination.stream;
     }
 

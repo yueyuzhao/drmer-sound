@@ -1,5 +1,5 @@
-import { getInstance } from '../instance';
 import { Filter } from './Filter';
+import { WebAudioContext } from '../webaudio/WebAudioContext';
 
 /**
  * Filter for adding reverb. Refactored from
@@ -15,13 +15,14 @@ class ReverbFilter extends Filter
     private _reverse: boolean;
 
     /**
+     * @param {WebAudioContext} context - The audio context
      * @param seconds - Seconds for reverb
      * @param decay - The decay length
      * @param reverse - Reverse reverb
      */
-    constructor(seconds = 3, decay = 2, reverse = false)
+    constructor(context: WebAudioContext, seconds = 3, decay = 2, reverse = false)
     {
-        super(null);
+        super(context, null);
 
         this._seconds = this._clamp(seconds, 1, 50);
         this._decay = this._clamp(decay, 0, 100);
@@ -89,7 +90,7 @@ class ReverbFilter extends Filter
      */
     private _rebuild(): void
     {
-        const context = getInstance().context.audioContext;
+        const context = this.context.audioContext;
         const rate: number = context.sampleRate;
         const length: number = rate * this._seconds;
         const impulse: AudioBuffer = context.createBuffer(2, length, rate);
@@ -103,7 +104,7 @@ class ReverbFilter extends Filter
             impulseL[i] = ((Math.random() * 2) - 1) * Math.pow(1 - (n / length), this._decay);
             impulseR[i] = ((Math.random() * 2) - 1) * Math.pow(1 - (n / length), this._decay);
         }
-        const convolver = getInstance().context.audioContext.createConvolver();
+        const convolver = this.context.audioContext.createConvolver();
 
         convolver.buffer = impulse;
         this.init(convolver);

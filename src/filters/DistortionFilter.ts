@@ -1,5 +1,5 @@
-import { getInstance } from '../instance';
 import { Filter } from './Filter';
+import { WebAudioContext } from '../webaudio/WebAudioContext';
 
 /**
  * Filter for adding adding delaynode.
@@ -15,13 +15,15 @@ class DistortionFilter extends Filter
     /** The amount of distoration */
     private _amount: number;
 
-    /** @param {number} [amount=0] - The amount of distoration from 0 to 1. */
-    constructor(amount = 0)
+    /**
+     * @param {WebAudioContext} context - the audio context
+     * @param {number} [amount=0] - The amount of distoration from 0 to 1.
+     */
+    constructor(context: WebAudioContext, amount = 0)
     {
-        const { context } = getInstance();
         const distortion: WaveShaperNode = context.audioContext.createWaveShaper();
 
-        super(distortion);
+        super(context, distortion);
 
         this._distortion = distortion;
 

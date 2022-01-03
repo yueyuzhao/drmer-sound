@@ -4,8 +4,12 @@
  * @class
  * @memberof filters
  */
+import { WebAudioContext } from '../webaudio/WebAudioContext';
+
 class Filter
 {
+    protected readonly context: WebAudioContext;
+
     /** The node to connect for the filter to the previous filter. */
     public destination: AudioNode;
 
@@ -13,12 +17,14 @@ class Filter
     public source: AudioNode;
 
     /**
+     * @param {WebAudioContext} context the audio context
      * @param {AudioNode} destination - The audio node to use as the destination for the input AudioNode
      * @param {AudioNode} [source] - Optional output node, defaults to destination node. This is useful
      *        when creating filters which contains multiple AudioNode elements chained together.
      */
-    constructor(destination: AudioNode, source?: AudioNode)
+    constructor(context: WebAudioContext, destination: AudioNode, source?: AudioNode)
     {
+        this.context = context;
         this.init(destination, source);
     }
 

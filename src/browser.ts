@@ -7,7 +7,8 @@ import {
     SoundLoader,
     filters,
     utils,
-    webaudio } from './index';
+    webaudio
+} from './index';
 
 Object.defineProperties(sound,
     {

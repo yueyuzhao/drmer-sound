@@ -1,5 +1,5 @@
 import { ILoaderPlugin, ILoaderResource, LoaderResource } from '@pixi/loaders';
-import { getInstance } from './instance';
+import { sound } from './instance';
 import { resolveUrl } from './utils/resolveUrl';
 import { extensions } from './utils/supported';
 
@@ -33,7 +33,7 @@ class SoundLoader implements ILoaderPlugin
     {
         if (resource.data && extensions.indexOf(resource.extension) > -1)
         {
-            (resource as any).sound = getInstance().add(resource.name, {
+            (resource as any).sound = sound.add(resource.name, {
                 loaded: next,
                 preload: true,
                 url: resource.url,

@@ -68,7 +68,7 @@ export default [
             name: "PIXI.sound",
             exports: 'default',
             sourcemap,
-            file: "dist/drmer-sound.js",
+            file: "dist/pixi-sound.js",
             globals: {
                 "@pixi/loaders": "PIXI",
                 "@pixi/core": "PIXI",

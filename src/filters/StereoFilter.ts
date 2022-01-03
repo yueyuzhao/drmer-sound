@@ -1,6 +1,5 @@
-import { getInstance } from '../instance';
-import { WebAudioUtils } from '../webaudio/WebAudioUtils';
 import { Filter } from './Filter';
+import { WebAudioContext } from '../webaudio/WebAudioContext';
 
 /**
  * Filter for adding Stereo panning.
@@ -19,13 +18,16 @@ class StereoFilter extends Filter
     /** The amount of panning, -1 is left, 1 is right, 0 is centered */
     private _pan: number;
 
-    /** @param {number} pan - The amount of panning, -1 is left, 1 is right, 0 is centered. */
-    constructor(pan = 0)
+    /**
+     * @param {WebAudioContext} context - The audio context
+     * @param {number} pan - The amount of panning, -1 is left, 1 is right, 0 is centered.
+     */
+    constructor(context: WebAudioContext, pan = 0)
     {
         let stereo: StereoPannerNode;
         let panner: PannerNode;
         let destination: AudioNode;
-        const { audioContext } = getInstance().context;
+        const audioContext = context.audioContext;
 
         if (audioContext.createStereoPanner)
         {
@@ -39,7 +41,7 @@ class StereoFilter extends Filter
             destination = panner;
         }
 
-        super(destination);
+        super(context, destination);
 
         this._stereo = stereo;
         this._panner = panner;
@@ -53,7 +55,7 @@ class StereoFilter extends Filter
         this._pan = value;
         if (this._stereo)
         {
-            WebAudioUtils.setParamValue(this._stereo.pan, value);
+            this.context.setParamValue(this._stereo.pan, value);
         }
         else
         {

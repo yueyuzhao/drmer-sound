@@ -8,6 +8,13 @@ type SoundSourceMap = {[id: string]: Options | string | ArrayBuffer | HTMLAudioE
 type SoundMap = {[id: string]: Sound};
 
 /**
+ * Increment the alias for play once
+ * @static
+ * @default 0
+ */
+let PLAY_ID = 0;
+
+/**
  * Manages the playback of sounds. This is the main class for PixiJS Sound. If you're
  * using the browser-based bundled this is `PIXI.sound`. Otherwise, you can do this:
  * @example
@@ -148,7 +155,10 @@ class SoundLibrary
             return sourceOptions;
         }
 
-        const options: Options = this._getOptions(sourceOptions);
+        const options: Options = this._getOptions(sourceOptions, {
+            context: this.context,
+        });
+
         const sound: Sound = Sound.from(options);
 
         this._sounds[source] = sound;
@@ -466,6 +476,39 @@ class SoundLibrary
         this._context = null;
 
         return this;
+    }
+
+    public playOnce(url: string, callback?: (err?: Error) => void): string
+    {
+        const alias = `alias${PLAY_ID++}`;
+
+        this.add(alias, {
+            url,
+            preload: true,
+            autoPlay: true,
+            loaded: (err: Error) =>
+            {
+                if (err)
+                {
+                    console.error(err);
+                    this.remove(alias);
+                    if (callback)
+                    {
+                        callback(err);
+                    }
+                }
+            },
+            complete: () =>
+            {
+                this.remove(alias);
+                if (callback)
+                {
+                    callback(null);
+                }
+            },
+        });
+
+        return alias;
     }
 }
 

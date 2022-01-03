@@ -1,11 +1,23 @@
-import { getInstance } from '../instance';
-import { WebAudioUtils } from '../webaudio/WebAudioUtils';
 import { Filter } from './Filter';
+import { WebAudioContext } from '../webaudio/WebAudioContext';
 
 interface Band {
     f: number;
     type: string;
     gain: number;
+}
+
+interface EqualizerOptions {
+    f32?: number;
+    f64?: number;
+    f125?: number;
+    f250?: number;
+    f500?: number;
+    f1k?: number;
+    f2k?: number;
+    f4k?: number;
+    f8k?: number;
+    f16k?: number;
 }
 
 /**
@@ -99,76 +111,92 @@ class EqualizerFilter extends Filter
      */
     public readonly bandsMap: {[id: number]: BiquadFilterNode};
 
-    constructor(f32 = 0, f64 = 0, f125 = 0, f250 = 0, f500 = 0,
-        f1k = 0, f2k = 0, f4k = 0, f8k = 0, f16k = 0)
+    /**
+     * @param {WebAudioContext} context - the audio context
+     * @param {EqualizerOptions} options - the equalizer options
+     */
+    constructor(context: WebAudioContext, options?: EqualizerOptions)
     {
+        const equalizerOptions = {
+            f32: 0,
+            f64: 0,
+            f125: 0,
+            f250: 0,
+            f500: 0,
+            f1k: 0,
+            f2k: 0,
+            f4k: 0,
+            f8k: 0,
+            f16k: 0,
+            ...options
+        };
         const equalizerBands: Band[] = [
             {
                 f: EqualizerFilter.F32,
                 type: 'lowshelf',
-                gain: f32,
+                gain: equalizerOptions.f32,
             },
             {
                 f: EqualizerFilter.F64,
                 type: 'peaking',
-                gain: f64,
+                gain: equalizerOptions.f64,
             },
             {
                 f: EqualizerFilter.F125,
                 type: 'peaking',
-                gain: f125,
+                gain: equalizerOptions.f125,
             },
             {
                 f: EqualizerFilter.F250,
                 type: 'peaking',
-                gain: f250,
+                gain: equalizerOptions.f250,
             },
             {
                 f: EqualizerFilter.F500,
                 type: 'peaking',
-                gain: f500,
+                gain: equalizerOptions.f500,
             },
             {
                 f: EqualizerFilter.F1K,
                 type: 'peaking',
-                gain: f1k,
+                gain: equalizerOptions.f1k,
             },
             {
                 f: EqualizerFilter.F2K,
                 type: 'peaking',
-                gain: f2k,
+                gain: equalizerOptions.f2k,
             },
             {
                 f: EqualizerFilter.F4K,
                 type: 'peaking',
-                gain: f4k,
+                gain: equalizerOptions.f4k,
             },
             {
                 f: EqualizerFilter.F8K,
                 type: 'peaking',
-                gain: f8k,
+                gain: equalizerOptions.f8k,
             },
             {
                 f: EqualizerFilter.F16K,
                 type: 'highshelf',
-                gain: f16k,
+                gain: equalizerOptions.f16k,
             },
         ];
 
         const bands: BiquadFilterNode[] = equalizerBands.map((band: Band) =>
         {
-            const node: BiquadFilterNode = getInstance().context.audioContext.createBiquadFilter();
+            const node: BiquadFilterNode = context.audioContext.createBiquadFilter();
 
             node.type = band.type as BiquadFilterType;
-            WebAudioUtils.setParamValue(node.Q, 1);
+            context.setParamValue(node.Q, 1);
             node.frequency.value = band.f; // WebAudioUtils.setParamValue(filter.frequency, band.f);
-            WebAudioUtils.setParamValue(node.gain, band.gain);
+            context.setParamValue(node.gain, band.gain);
 
             return node;
         });
 
         // Setup the constructor AudioNode, where first is the input, and last is the output
-        super(bands[0], bands[bands.length - 1]);
+        super(context, bands[0], bands[bands.length - 1]);
 
         // Manipulate the bands
         this.bands = bands;
@@ -200,7 +228,7 @@ class EqualizerFilter extends Filter
         {
             throw new Error(`No band found for frequency ${frequency}`);
         }
-        WebAudioUtils.setParamValue(this.bandsMap[frequency].gain, gain);
+        this.context.setParamValue(this.bandsMap[frequency].gain, gain);
     }
 
     /**
@@ -362,7 +390,7 @@ class EqualizerFilter extends Filter
     {
         this.bands.forEach((band: BiquadFilterNode) =>
         {
-            WebAudioUtils.setParamValue(band.gain, 0);
+            this.context.setParamValue(band.gain, 0);
         });
     }
 

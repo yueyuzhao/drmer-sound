@@ -305,6 +305,20 @@ class WebAudioContext extends Filterable implements IMediaContext
             result.catch(handleError);
         }
     }
+
+    public setParamValue(param: AudioParam, value: number): number
+    {
+        if (param.setValueAtTime)
+        {
+            param.setValueAtTime(value, this.audioContext.currentTime);
+        }
+        else
+        {
+            param.value = value;
+        }
+
+        return value;
+    }
 }
 
 export { WebAudioContext };
