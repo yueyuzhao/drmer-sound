@@ -1,5 +1,5 @@
-import { IMediaInstance } from './interfaces';
 import { CompleteCallback, Sound } from './Sound';
+import { WebAudioInstance } from './webaudio/WebAudioInstance';
 
 /**
  * Data for adding new sound sprites.
@@ -100,7 +100,7 @@ class SoundSprite
      * @param {Function} [complete] - Function call when complete
      * @return Sound instance being played.
      */
-    public play(complete?: CompleteCallback): IMediaInstance | Promise<IMediaInstance>
+    public play(complete?: CompleteCallback): WebAudioInstance | Promise<WebAudioInstance>
     {
         return this.parent.play({
             complete,

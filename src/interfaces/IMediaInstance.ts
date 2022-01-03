@@ -1,5 +1,5 @@
 import { PlayOptions } from '../Sound';
-import { IMedia } from './IMedia';
+import { WebAudioMedia } from '../webaudio/WebAudioMedia';
 
 /**
  * Interface for single instance return by a Sound play call. This can either
@@ -99,7 +99,7 @@ interface IMediaInstance
     // are not accessible or part of the public API
     refresh(): void;
     refreshPaused(): void;
-    init(parent: IMedia): void;
+    init(parent: WebAudioMedia): void;
     play(options: PlayOptions): void;
     destroy(): void;
     toString(): string;

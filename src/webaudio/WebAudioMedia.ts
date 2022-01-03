@@ -1,5 +1,5 @@
 import { Filter } from '../filters/Filter';
-import { IMedia } from '../interfaces/IMedia';
+import { IMedia } from '../interfaces';
 import { LoadedCallback, Sound } from '../Sound';
 import { WebAudioContext } from './WebAudioContext';
 import { WebAudioInstance } from './WebAudioInstance';

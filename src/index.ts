@@ -12,7 +12,6 @@ export * from './Sound';
 export * from './SoundLoader';
 export * from './SoundLibrary';
 export * from './Filterable';
-export * from './interfaces';
 export * from './filters/Filter';
 export * from './SoundSprite';
 export {

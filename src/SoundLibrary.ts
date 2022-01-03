@@ -1,8 +1,7 @@
 import { Filter } from './filters/Filter';
-import { IMediaContext } from './interfaces/IMediaContext';
-import { IMediaInstance } from './interfaces/IMediaInstance';
 import { CompleteCallback, Options, PlayOptions, Sound } from './Sound';
 import { WebAudioContext } from './webaudio/WebAudioContext';
+import { WebAudioInstance } from './webaudio/WebAudioInstance';
 
 type SoundSourceMap = {[id: string]: Options | string | ArrayBuffer | HTMLAudioElement};
 type SoundMap = {[id: string]: Sound};
@@ -28,7 +27,7 @@ let PLAY_ID = 0;
 class SoundLibrary
 {
     /** The global context to use. */
-    private _context: IMediaContext;
+    private _context: WebAudioContext;
 
     /** The map of all sounds by alias. */
     private _sounds: SoundMap;
@@ -54,10 +53,10 @@ class SoundLibrary
 
     /**
      * The global context to use.
-     * @type {IMediaContext}
+     * @type {WebAudioContext}
      * @readonly
      */
-    public get context(): IMediaContext
+    public get context(): WebAudioContext
     {
         return this._context;
     }
@@ -368,7 +367,7 @@ class SoundLibrary
      * @instance
      * @param {string} alias - The sound alias reference.
      * @param {string} sprite - The alias of the sprite to play.
-     * @return {IMediaInstance|null} The sound instance, this cannot be reused
+     * @return {WebAudioInstance|null} The sound instance, this cannot be reused
      *         after it is done playing. Returns `null` if the sound has not yet loaded.
      */
 
@@ -382,7 +381,7 @@ class SoundLibrary
      */
     public play(
         alias: string,
-        options?: PlayOptions | CompleteCallback | string): IMediaInstance | Promise<IMediaInstance>
+        options?: PlayOptions | CompleteCallback | string): WebAudioInstance | Promise<WebAudioInstance>
     {
         return this.find(alias).play(options);
     }

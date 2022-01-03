@@ -1,7 +1,7 @@
 import { Filter } from '../filters/Filter';
 import { LoadedCallback, Sound } from '../Sound';
-import { IMediaContext } from './IMediaContext';
-import { IMediaInstance } from './IMediaInstance';
+import { WebAudioContext } from '../webaudio/WebAudioContext';
+import { WebAudioInstance } from '../webaudio/WebAudioInstance';
 
 /**
  * Interface represents either a WebAudio source or an HTML5 AudioElement source
@@ -19,7 +19,7 @@ interface IMedia {
      * @readonly
      * @type {IMediaContext}
      */
-    readonly context: IMediaContext;
+    readonly context: WebAudioContext;
 
     /**
      * Length of sound in seconds.
@@ -36,7 +36,7 @@ interface IMedia {
     readonly isPlayable: boolean;
 
     // Internal methods
-    create(): IMediaInstance;
+    create(): WebAudioInstance;
     init(sound: Sound): void;
     load(callback?: LoadedCallback): void;
     destroy(): void;

@@ -1,9 +1,9 @@
 import { Filter } from './filters/Filter';
-import { IMedia, IMediaContext, IMediaInstance } from './interfaces';
 import { SoundSprite, SoundSpriteData, SoundSprites } from './SoundSprite';
 import { resolveUrl } from './utils/resolveUrl';
 import { WebAudioMedia } from './webaudio/WebAudioMedia';
 import { WebAudioContext } from './webaudio/WebAudioContext';
+import { WebAudioInstance } from './webaudio/WebAudioInstance';
 
 /**
  * Options to use for creating sounds.
@@ -75,7 +75,7 @@ interface Options {
     /**
      * The audio context
      */
-    context?: IMediaContext;
+    context?: WebAudioContext;
 }
 
 /**
@@ -136,9 +136,9 @@ interface PlayOptions {
  * @ignore
  * @param {Error} err - The callback error.
  * @param {Sound} sound - The instance of new sound.
- * @param {IMediaInstance} instance - The instance of auto-played sound.
+ * @param {WebAudioInstance} instance - The instance of auto-played sound.
  */
-type LoadedCallback = (err: Error, sound?: Sound, instance?: IMediaInstance) => void;
+type LoadedCallback = (err: Error, sound?: Sound, instance?: WebAudioInstance) => void;
 
 /**
  * Callback when sound is completed.
@@ -150,7 +150,7 @@ type CompleteCallback = (sound: Sound) => void;
 type SoundSpriteDataMap = {[id: string]: SoundSpriteData};
 
 /**
- * Sound represents a single piece of loaded media. When playing a sound {@link IMediaInstance} objects
+ * Sound represents a single piece of loaded media. When playing a sound {@link WebAudioInstance} objects
  * are created. Properties such a `volume`, `pause`, `mute`, `speed`, etc will have an effect on all instances.
  * @class
  */
@@ -158,9 +158,9 @@ class Sound
 {
     /**
      * Pool of instances
-     * @type {Array<IMediaInstance>}
+     * @type {Array<WebAudioInstance>}
      */
-    private static _pool: IMediaInstance[] = [];
+    private static _pool: WebAudioInstance[] = [];
 
     /**
      * `true` if the buffer is loaded.
@@ -218,13 +218,13 @@ class Sound
      * The audio source
      * @type {IMedia}
      */
-    public media: IMedia;
+    public media: WebAudioMedia;
 
     /**
      * The collection of instances being played.
-     * @type {Array<IMediaInstance>}
+     * @type {Array<WebAudioInstance>}
      */
-    private _instances: IMediaInstance[];
+    private _instances: WebAudioInstance[];
 
     /**
      * The user defined sound sprites
@@ -270,10 +270,10 @@ class Sound
 
     /**
      * Reference to the sound context.
-     * @type {IMediaContext}
+     * @type {WebAudioContext}
      * @private
      */
-    private _context: IMediaContext;
+    private readonly _context: WebAudioContext;
 
     /**
      * Create a new sound instance from source.
@@ -325,16 +325,14 @@ class Sound
 
         Object.freeze(options);
 
-        const media: IMedia = new WebAudioMedia();
-
-        return new Sound(media, options);
+        return new Sound(new WebAudioMedia(), options);
     }
 
     /**
      * Use `Sound.from`
      * @ignore
      */
-    constructor(media: IMedia, options: Options)
+    constructor(media: WebAudioMedia, options: Options)
     {
         this._context = options.context;
         this.media = media;
@@ -370,9 +368,9 @@ class Sound
 
     /**
      * Instance of the media context
-     * @type {IMediaContext}
+     * @type {WebAudioContext}
      */
-    public get context(): IMediaContext
+    public get context(): WebAudioContext
     {
         return this._context;
     }
@@ -562,7 +560,7 @@ class Sound
      *        this cannot be reused after it is done playing. Returns a Promise if the sound
      *        has not yet loaded.
      */
-    public play(alias: string, callback?: CompleteCallback): IMediaInstance | Promise<IMediaInstance>;
+    public play(alias: string, callback?: CompleteCallback): WebAudioInstance | Promise<WebAudioInstance>;
 
     /**
      * Plays the sound.
@@ -575,11 +573,11 @@ class Sound
      *        has not yet loaded.
      */
     public play(source?: string | PlayOptions | CompleteCallback,
-                callback?: CompleteCallback): IMediaInstance | Promise<IMediaInstance>;
+                callback?: CompleteCallback): WebAudioInstance | Promise<WebAudioInstance>;
 
     // Overloaded function
     public play(source?: string | PlayOptions | CompleteCallback,
-        complete?: CompleteCallback): IMediaInstance | Promise<IMediaInstance>
+        complete?: CompleteCallback): WebAudioInstance | Promise<WebAudioInstance>
     {
         let options: PlayOptions;
 
@@ -636,11 +634,11 @@ class Sound
         // - usefull when the sound download isnt yet completed
         if (!this.isLoaded)
         {
-            return new Promise<IMediaInstance>((resolve, reject) =>
+            return new Promise<WebAudioInstance>((resolve, reject) =>
             {
                 this.autoPlay = true;
                 this._autoPlayOptions = options;
-                this._preload((err: Error, sound: Sound, media: IMediaInstance) =>
+                this._preload((err: Error, sound: Sound, media: WebAudioInstance) =>
                 {
                     if (err)
                     {
@@ -753,9 +751,9 @@ class Sound
 
     /**
      * Gets the list of instances that are currently being played of this sound.
-     * @type {Array<IMediaInstance>}
+     * @type {Array<WebAudioInstance>}
      */
-    public get instances(): IMediaInstance[]
+    public get instances(): WebAudioInstance[]
     {
         return this._instances;
     }
@@ -776,13 +774,13 @@ class Sound
     }
 
     /** Auto play the first instance. */
-    public autoPlayStart(): IMediaInstance
+    public autoPlayStart(): WebAudioInstance
     {
-        let instance: IMediaInstance;
+        let instance: WebAudioInstance;
 
         if (this.autoPlay)
         {
-            instance = this.play(this._autoPlayOptions) as IMediaInstance;
+            instance = this.play(this._autoPlayOptions) as WebAudioInstance;
         }
 
         return instance;
@@ -805,9 +803,9 @@ class Sound
     /**
      * Sound instance completed.
      * @private
-     * @param {IMediaInstance} instance
+     * @param {WebAudioInstance} instance
      */
-    private _onComplete(instance: IMediaInstance): void
+    private _onComplete(instance: WebAudioInstance): void
     {
         if (this._instances)
         {
@@ -827,11 +825,11 @@ class Sound
      * @private
      * @return New instance to use
      */
-    private _createInstance(): IMediaInstance
+    private _createInstance(): WebAudioInstance
     {
         if (Sound._pool.length > 0)
         {
-            const instance: IMediaInstance = Sound._pool.pop();
+            const instance: WebAudioInstance = Sound._pool.pop();
 
             instance.init(this.media);
 
@@ -846,7 +844,7 @@ class Sound
      * @private
      * @param instance - - Instance to recycle
      */
-    private _poolInstance(instance: IMediaInstance): void
+    private _poolInstance(instance: WebAudioInstance): void
     {
         instance.destroy();
         // Add it if it isn't already added
