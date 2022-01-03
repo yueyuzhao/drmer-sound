@@ -2,7 +2,6 @@ import { Loader } from '@pixi/loaders';
 import { setInstance } from './instance';
 import { SoundLoader } from './SoundLoader';
 import { SoundLibrary } from './SoundLibrary';
-import htmlaudio from './htmlaudio';
 import filters from './filters';
 import webaudio from './webaudio';
 import utils from './utils';
@@ -21,7 +20,6 @@ export * from './filters/Filter';
 export * from './SoundSprite';
 export {
     sound,
-    htmlaudio,
     filters,
     webaudio,
     utils,

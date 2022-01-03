@@ -21,13 +21,6 @@ class ReverbFilter extends Filter
      */
     constructor(seconds = 3, decay = 2, reverse = false)
     {
-        if (getInstance().useLegacy)
-        {
-            super(null);
-
-            return;
-        }
-
         super(null);
 
         this._seconds = this._clamp(seconds, 1, 50);

@@ -22,13 +22,6 @@ class StereoFilter extends Filter
     /** @param {number} pan - The amount of panning, -1 is left, 1 is right, 0 is centered. */
     constructor(pan = 0)
     {
-        if (getInstance().useLegacy)
-        {
-            super(null);
-
-            return;
-        }
-
         let stereo: StereoPannerNode;
         let panner: PannerNode;
         let destination: AudioNode;

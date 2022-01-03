@@ -1,6 +1,4 @@
 import { Filter } from './filters/Filter';
-import { HTMLAudioMedia } from './htmlaudio/HTMLAudioMedia';
-import { getInstance } from './instance';
 import { IMedia, IMediaContext, IMediaInstance } from './interfaces';
 import { SoundSprite, SoundSpriteData, SoundSprites } from './SoundSprite';
 import { resolveUrl } from './utils/resolveUrl';
@@ -308,9 +306,7 @@ class Sound
 
         Object.freeze(options);
 
-        const media: IMedia = getInstance().useLegacy
-            ? new HTMLAudioMedia()
-            : new WebAudioMedia();
+        const media: IMedia = new WebAudioMedia();
 
         return new Sound(media, options);
     }

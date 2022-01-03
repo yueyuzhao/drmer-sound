@@ -12,37 +12,13 @@ class SoundLoader implements ILoaderPlugin
     /** Install the middleware */
     public static add(): void
     {
-        SoundLoader.setLegacy(getInstance().useLegacy);
-    }
-
-    /**
-     * Set the legacy mode
-     * @param legacy - Non-webaudio environments
-     */
-    static setLegacy(legacy: boolean): void
-    {
         // Configure PIXI Loader to handle audio files correctly
-        const exts = extensions;
-
-        // Make sure we support webaudio
-        if (!legacy)
+        // Load all audio files as ArrayBuffers
+        extensions.forEach((ext) =>
         {
-            // Load all audio files as ArrayBuffers
-            exts.forEach((ext) =>
-            {
-                LoaderResource.setExtensionXhrType(ext, LoaderResource.XHR_RESPONSE_TYPE.BUFFER);
-                LoaderResource.setExtensionLoadType(ext, LoaderResource.LOAD_TYPE.XHR);
-            });
-        }
-        else
-        {
-            // Fall back to loading as <audio> elements
-            exts.forEach((ext) =>
-            {
-                LoaderResource.setExtensionXhrType(ext, LoaderResource.XHR_RESPONSE_TYPE.DEFAULT);
-                LoaderResource.setExtensionLoadType(ext, LoaderResource.LOAD_TYPE.AUDIO);
-            });
-        }
+            LoaderResource.setExtensionXhrType(ext, LoaderResource.XHR_RESPONSE_TYPE.BUFFER);
+            LoaderResource.setExtensionLoadType(ext, LoaderResource.LOAD_TYPE.XHR);
+        });
     }
 
     /** Handle the preprocessing of file paths */

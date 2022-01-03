@@ -18,13 +18,6 @@ class DistortionFilter extends Filter
     /** @param {number} [amount=0] - The amount of distoration from 0 to 1. */
     constructor(amount = 0)
     {
-        if (getInstance().useLegacy)
-        {
-            super(null);
-
-            return;
-        }
-
         const { context } = getInstance();
         const distortion: WaveShaperNode = context.audioContext.createWaveShaper();
 

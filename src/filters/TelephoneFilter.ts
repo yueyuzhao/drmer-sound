@@ -12,13 +12,6 @@ class TelephoneFilter extends Filter
 {
     constructor()
     {
-        if (getInstance().useLegacy)
-        {
-            super(null);
-
-            return;
-        }
-
         const { audioContext } = getInstance().context;
         const lpf1 = audioContext.createBiquadFilter();
         const lpf2 = audioContext.createBiquadFilter();

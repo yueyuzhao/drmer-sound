@@ -1,9 +1,7 @@
 import { Filter } from './filters/Filter';
 import { IMediaContext } from './interfaces/IMediaContext';
 import { IMediaInstance } from './interfaces/IMediaInstance';
-import { SoundLoader } from './SoundLoader';
 import { CompleteCallback, Options, PlayOptions, Sound } from './Sound';
-import { HTMLAudioContext } from './htmlaudio/HTMLAudioContext';
 import { WebAudioContext } from './webaudio/WebAudioContext';
 
 type SoundSourceMap = {[id: string]: Options | string | ArrayBuffer | HTMLAudioElement};
@@ -22,20 +20,8 @@ type SoundMap = {[id: string]: Sound};
  */
 class SoundLibrary
 {
-    /**
-     * For legacy approach for Audio. Instead of using WebAudio API
-     * for playback of sounds, it will use HTML5 `<audio>` element.
-     */
-    private _useLegacy: boolean;
-
     /** The global context to use. */
     private _context: IMediaContext;
-
-    /** The WebAudio specific context */
-    private _webAudioContext: WebAudioContext;
-
-    /** The HTML Audio (legacy) context. */
-    private _htmlAudioContext: HTMLAudioContext;
 
     /** The map of all sounds by alias. */
     private _sounds: SoundMap;
@@ -53,13 +39,8 @@ class SoundLibrary
      */
     public init(): this
     {
-        if (this.supported)
-        {
-            this._webAudioContext = new WebAudioContext();
-        }
-        this._htmlAudioContext = new HTMLAudioContext();
+        this._context = new WebAudioContext();
         this._sounds = {};
-        this.useLegacy = !this.supported;
 
         return this;
     }
@@ -88,19 +69,11 @@ class SoundLibrary
      */
     public get filtersAll(): Filter[]
     {
-        if (!this.useLegacy)
-        {
-            return this._context.filters;
-        }
-
-        return [];
+        return this._context.filters;
     }
     public set filtersAll(filtersAll: Filter[])
     {
-        if (!this.useLegacy)
-        {
-            this._context.filters = filtersAll;
-        }
+        this._context.filters = filtersAll;
     }
 
     /**
@@ -209,25 +182,6 @@ class SoundLibrary
         options = { ...options, ...(overrides || {}) };
 
         return options;
-    }
-
-    /**
-     * Do not use WebAudio, force the use of legacy. This **must** be called before loading any files.
-     * @type {boolean}
-     */
-    public get useLegacy(): boolean
-    {
-        return this._useLegacy;
-    }
-    public set useLegacy(legacy: boolean)
-    {
-        SoundLoader.setLegacy(legacy);
-        this._useLegacy = legacy;
-
-        // Set the context to use
-        this._context = (!legacy && this.supported)
-            ? this._webAudioContext
-            : this._htmlAudioContext;
     }
 
     /**
@@ -508,16 +462,7 @@ class SoundLibrary
     {
         this.removeAll();
         this._sounds = null;
-        if (this._webAudioContext)
-        {
-            this._webAudioContext.destroy();
-            this._webAudioContext = null;
-        }
-        if (this._htmlAudioContext)
-        {
-            this._htmlAudioContext.destroy();
-            this._htmlAudioContext = null;
-        }
+        this._context.destroy();
         this._context = null;
 
         return this;

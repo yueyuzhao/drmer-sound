@@ -14,12 +14,6 @@ class MonoFilter extends Filter
 
     constructor()
     {
-        if (getInstance().useLegacy)
-        {
-            super(null);
-
-            return;
-        }
         const audioContext: AudioContext = getInstance().context.audioContext;
         const splitter: ChannelSplitterNode = audioContext.createChannelSplitter();
         const merger: ChannelMergerNode = audioContext.createChannelMerger();

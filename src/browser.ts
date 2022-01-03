@@ -6,7 +6,6 @@ import {
     SoundSprite,
     SoundLoader,
     filters,
-    htmlaudio,
     utils,
     webaudio } from './index';
 
@@ -14,7 +13,6 @@ Object.defineProperties(sound,
     {
         Filterable: { get() { return Filterable; } },
         filters: { get() { return filters; } },
-        htmlaudio: { get() { return htmlaudio; } },
         Sound: { get() { return Sound; } },
         SoundLoader: { get() { return SoundLoader; } },
         SoundLibrary: { get() { return SoundLibrary; } },

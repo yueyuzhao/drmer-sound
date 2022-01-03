@@ -102,13 +102,6 @@ class EqualizerFilter extends Filter
     constructor(f32 = 0, f64 = 0, f125 = 0, f250 = 0, f500 = 0,
         f1k = 0, f2k = 0, f4k = 0, f8k = 0, f16k = 0)
     {
-        if (getInstance().useLegacy)
-        {
-            super(null);
-
-            return;
-        }
-
         const equalizerBands: Band[] = [
             {
                 f: EqualizerFilter.F32,
