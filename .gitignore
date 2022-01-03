@@ -7,4 +7,5 @@ node_modules
 .DS_Store
 .nyc_output
 .types_output
+.idea/
 /example.api.json
