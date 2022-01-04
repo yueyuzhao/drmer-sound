@@ -120,6 +120,10 @@ interface PlayOptions {
      */
     muted?: boolean;
     /**
+     * Filters for this instance
+     */
+    filters?: Filter[];
+    /**
      * When completed.
      * @type {Function}
      */
