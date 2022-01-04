@@ -261,13 +261,8 @@ sound.play();</code></pre>
                 </button>
                 <pre><code id="stream" class="javascript">const stream = new MediaStream();
 const recorder = new MediaRecorder(stream);
-const context = PIXI.sound.context;
-const streamFilter = new PIXI.sound.filters.StreamFilter(context);
+const streamFilter = new PIXI.sound.filters.StreamFilter();
 
-// attach audio stream
-streamFilter.stream.getAudioTracks().forEach(function (track) {
-    stream.addTrack(track);
-});
 // process recorded data
 recorder.ondataavailable = function (e) {
     if (e.data.size == 0) {
@@ -285,17 +280,22 @@ recorder.ondataavailable = function (e) {
 };
 // apply filters
 PIXI.sound.filtersAll = [
-    new PIXI.sound.filters.TelephoneFilter(context),
-    new PIXI.sound.filters.StereoFilter(context, -1),
+    new PIXI.sound.filters.TelephoneFilter(),
+    new PIXI.sound.filters.StereoFilter(-1),
     // You need to place StreamFilter at the end of filters list,
     // so that the stream will have the effect of other filters.
     streamFilter,
 ];
+
+// after stream filter bound to audio context, the stream will be ready.
+streamFilter.stream.getAudioTracks().forEach(function (track) {
+    stream.addTrack(track);
+});
 // load and play sound
 PIXI.sound.Sound.from({
     url: 'resources/boing.mp3',
     autoPlay: true,
-    context: context,
+    context: PIXI.sound.context,
     loaded: function () {
         recorder.start();
     },
@@ -308,13 +308,5 @@ PIXI.sound.Sound.from({
     </main>
 </div>
         <script src="./client/index.js"></script>
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-            ga('create', 'UA-103772589-1', 'auto');
-            ga('send', 'pageview');
-        </script>
     </body>
 </html>

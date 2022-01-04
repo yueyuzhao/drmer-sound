@@ -310,9 +310,7 @@ class WebAudioInstance extends EventEmitter implements IMediaInstance
         this._muted = muted;
         this.refresh();
 
-        const duration: number = this._source.buffer.duration;
-
-        this._duration = duration;
+        this._duration = this._source.buffer.duration;
         this._end = end;
         this._lastUpdate = this._now();
         this._elapsed = start;

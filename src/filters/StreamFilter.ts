@@ -1,5 +1,4 @@
 import { Filter } from './Filter';
-import { WebAudioContext } from '../webaudio/WebAudioContext';
 
 /**
  * This filter does nothing to audio
@@ -11,19 +10,6 @@ class StreamFilter extends Filter
 {
     private _stream: MediaStream;
 
-    /**
-     * @param {WebAudioContext} context - The audio context
-     */
-    constructor(context: WebAudioContext)
-    {
-        const audioContext: AudioContext = context.audioContext;
-        const destination: MediaStreamAudioDestinationNode = audioContext.createMediaStreamDestination();
-        const source: MediaStreamAudioSourceNode = audioContext.createMediaStreamSource(destination.stream);
-
-        super(context, destination, source);
-        this._stream = destination.stream;
-    }
-
     public get stream(): MediaStream
     {
         return this._stream;
@@ -33,6 +19,16 @@ class StreamFilter extends Filter
     {
         this._stream = null;
         super.destroy();
+    }
+
+    protected setup(): void
+    {
+        const audioContext = this.context.audioContext;
+        const destination = audioContext.createMediaStreamDestination();
+        const source = audioContext.createMediaStreamSource(destination.stream);
+
+        this.init(destination, source);
+        this._stream = destination.stream;
     }
 }
 

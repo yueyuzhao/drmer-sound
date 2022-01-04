@@ -155,6 +155,11 @@ class WebAudioNodes extends Filterable
     {
         return this.script.bufferSize;
     }
+
+    public getContext(): WebAudioContext
+    {
+        return this.context;
+    }
 }
 
 export type { SourceClone };

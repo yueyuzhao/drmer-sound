@@ -6,9 +6,9 @@
  */
 import { WebAudioContext } from '../webaudio/WebAudioContext';
 
-class Filter
+abstract class Filter
 {
-    protected readonly context: WebAudioContext;
+    private _context: WebAudioContext = null;
 
     /** The node to connect for the filter to the previous filter. */
     public destination: AudioNode;
@@ -16,24 +16,31 @@ class Filter
     /** The node to connect for the filter to the previous filter. */
     public source: AudioNode;
 
-    /**
-     * @param {WebAudioContext} context the audio context
-     * @param {AudioNode} destination - The audio node to use as the destination for the input AudioNode
-     * @param {AudioNode} [source] - Optional output node, defaults to destination node. This is useful
-     *        when creating filters which contains multiple AudioNode elements chained together.
-     */
-    constructor(context: WebAudioContext, destination: AudioNode, source?: AudioNode)
-    {
-        this.context = context;
-        this.init(destination, source);
-    }
-
     /** Reinitialize */
     protected init(destination: AudioNode, source?: AudioNode): void
     {
         this.destination = destination;
         this.source = source || destination;
     }
+
+    public get context(): WebAudioContext
+    {
+        return this._context;
+    }
+    public set context(context: WebAudioContext)
+    {
+        if (this._context)
+        {
+            // eslint-disable-next-line no-console
+            console.assert(this._context === context, 'AudioContext already bound to this filter');
+
+            return;
+        }
+        this._context = context;
+        this.setup();
+    }
+
+    protected abstract setup(): void;
 
     /**
      * Connect to the destination.

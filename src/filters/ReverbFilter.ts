@@ -1,5 +1,4 @@
 import { Filter } from './Filter';
-import { WebAudioContext } from '../webaudio/WebAudioContext';
 
 /**
  * Filter for adding reverb. Refactored from
@@ -15,19 +14,17 @@ class ReverbFilter extends Filter
     private _reverse: boolean;
 
     /**
-     * @param {WebAudioContext} context - The audio context
      * @param seconds - Seconds for reverb
      * @param decay - The decay length
      * @param reverse - Reverse reverb
      */
-    constructor(context: WebAudioContext, seconds = 3, decay = 2, reverse = false)
+    constructor(seconds = 3, decay = 2, reverse = false)
     {
-        super(context, null);
+        super();
 
         this._seconds = this._clamp(seconds, 1, 50);
         this._decay = this._clamp(decay, 0, 100);
         this._reverse = reverse;
-        this._rebuild();
     }
 
     /**
@@ -90,6 +87,10 @@ class ReverbFilter extends Filter
      */
     private _rebuild(): void
     {
+        if (!this.context)
+        {
+            return;
+        }
         const context = this.context.audioContext;
         const rate: number = context.sampleRate;
         const length: number = rate * this._seconds;
@@ -108,6 +109,11 @@ class ReverbFilter extends Filter
 
         convolver.buffer = impulse;
         this.init(convolver);
+    }
+
+    protected setup(): void
+    {
+        this._rebuild();
     }
 }
 

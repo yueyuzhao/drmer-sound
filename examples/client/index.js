@@ -38,7 +38,7 @@ for (let i = 0; i < buttons.length; i++)
             eval(beforecodeContent);
         }
         // tslint:disable-next-line no-eval
-        eval(codeContent.replace(/const /g, 'var '));
+        eval(codeContent);
     });
 }
 

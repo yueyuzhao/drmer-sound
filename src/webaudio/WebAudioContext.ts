@@ -319,6 +319,11 @@ class WebAudioContext extends Filterable implements IMediaContext
 
         return value;
     }
+
+    public getContext(): WebAudioContext
+    {
+        return this;
+    }
 }
 
 export { WebAudioContext };

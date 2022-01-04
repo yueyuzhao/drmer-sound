@@ -113,13 +113,12 @@ function refresh()
             }
             args[parseInt(range1.getAttribute('data-index'), 10)] = range1.value;
         }
-        inserts.push(`new PIXI.sound.filters.${ctrl.name}(context${show ? `, ${args.join(', ')}` : ''})`);
+        inserts.push(`new PIXI.sound.filters.${ctrl.name}(${show ? args.join(', ') : ''})`);
 
         return ctrl.filter;
     });
     if (inserts.length)
     {
-        buffer += 'const context = PIXI.sound.context;\n';
         const nl = inserts.length > 1 ? '\n' : '';
         const spacer = inserts.length > 1 ? '  ' : '';
 

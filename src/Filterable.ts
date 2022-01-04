@@ -1,4 +1,5 @@
 import { Filter } from './filters/Filter';
+import { WebAudioContext } from './webaudio/WebAudioContext';
 
 /**
  * Abstract class which SoundNodes and SoundContext
@@ -6,7 +7,7 @@ import { Filter } from './filters/Filter';
  * dynamic filters.
  * @class
  */
-class Filterable
+abstract class Filterable
 {
     /** Get the gain node */
     private _input: AudioNode;
@@ -72,6 +73,7 @@ class Filterable
 
             filters.forEach((filter: Filter) =>
             {
+                filter.context = this.getContext();
                 if (prevFilter === null)
                 {
                     // first filter is the destination
@@ -95,6 +97,8 @@ class Filterable
         this._input = null;
         this._output = null;
     }
+
+    abstract getContext(): WebAudioContext;
 }
 
 export { Filterable };
