@@ -224,7 +224,9 @@ class WebAudioInstance extends EventEmitter implements IMediaInstance
             // Reconnect direct path
             this._source.connect(this._gain);
         }
-        this._filters = filters;
+        if (filters && filters.length) {
+            this._filters = filters.slice(0);
+        }
         this.refresh();
     }
 
