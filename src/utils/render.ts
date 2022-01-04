@@ -1,6 +1,6 @@
 import { BaseTexture } from '@pixi/core';
 import { Sound } from '../Sound';
-import { WebAudioMedia } from '../webaudio/WebAudioMedia';
+import { WebAudioMedia } from '../webaudio';
 
 interface RenderOptions {
     width?: number;

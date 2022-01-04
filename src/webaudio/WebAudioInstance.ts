@@ -105,7 +105,7 @@ class WebAudioInstance extends EventEmitter implements IMediaInstance
      */
     private _source: AudioBufferSourceNode;
 
-    private _filters: Filter[];
+    private _filters: Filter[] = null;
 
     constructor(media: WebAudioMedia)
     {
@@ -468,8 +468,8 @@ class WebAudioInstance extends EventEmitter implements IMediaInstance
                 filter.disconnect();
                 filter.destroy();
             });
-            this._filters = [];
         }
+        this._filters = null;
         this._end = null;
         this._speed = 1;
         this._volume = 1;
