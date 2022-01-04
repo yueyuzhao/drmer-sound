@@ -1,5 +1,5 @@
 import { CompleteCallback, Sound } from './Sound';
-import { WebAudioInstance } from './webaudio/WebAudioInstance';
+import { WebAudioInstance } from './webaudio';
 
 /**
  * Data for adding new sound sprites.

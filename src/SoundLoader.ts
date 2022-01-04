@@ -1,7 +1,6 @@
 import { ILoaderPlugin, ILoaderResource, LoaderResource } from '@pixi/loaders';
 import { sound } from './instance';
-import { resolveUrl } from './utils/resolveUrl';
-import { extensions } from './utils/supported';
+import { resolveUrl, extensions } from './utils';
 
 /**
  * Sound middleware installation utilities for PIXI.Loader

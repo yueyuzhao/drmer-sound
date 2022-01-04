@@ -4,7 +4,7 @@ import { IMediaInstance } from '../interfaces';
 import { PlayOptions } from '../Sound';
 import { WebAudioMedia } from './WebAudioMedia';
 import { WebAudioContext } from './WebAudioContext';
-import { Filter } from '../filters/Filter';
+import { Filter } from '../filters';
 
 let id = 0;
 
@@ -224,7 +224,8 @@ class WebAudioInstance extends EventEmitter implements IMediaInstance
             // Reconnect direct path
             this._source.connect(this._gain);
         }
-        if (filters && filters.length) {
+        if (filters && filters.length)
+        {
             this._filters = filters.slice(0);
         }
         this.refresh();

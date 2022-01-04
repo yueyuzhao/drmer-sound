@@ -4,7 +4,7 @@
  * @class
  * @memberof filters
  */
-import { WebAudioContext } from '../webaudio/WebAudioContext';
+import { WebAudioContext } from '../webaudio';
 
 abstract class Filter
 {

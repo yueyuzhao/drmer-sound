@@ -1,5 +1,5 @@
 import { PlayOptions } from '../Sound';
-import { WebAudioMedia } from '../webaudio/WebAudioMedia';
+import { WebAudioMedia } from '../webaudio';
 
 /**
  * Interface for single instance return by a Sound play call. This can either

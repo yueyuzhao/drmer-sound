@@ -1,9 +1,9 @@
 import { Loader } from '@pixi/loaders';
-import { sound } from './instance';
+export * from './instance';
 import { SoundLoader } from './SoundLoader';
-import filters from './filters';
-import webaudio from './webaudio';
-import utils from './utils';
+import * as filters from './filters';
+import * as webaudio from './webaudio';
+import * as utils from './utils';
 
 // Add the loader plugin
 Loader.registerPlugin(SoundLoader);
@@ -14,8 +14,8 @@ export * from './SoundLibrary';
 export * from './Filterable';
 export * from './filters/Filter';
 export * from './SoundSprite';
+
 export {
-    sound,
     filters,
     webaudio,
     utils,

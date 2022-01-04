@@ -1,9 +1,7 @@
-import { Filter } from './filters/Filter';
+import { Filter } from './filters';
 import { SoundSprite, SoundSpriteData, SoundSprites } from './SoundSprite';
 import { resolveUrl } from './utils/resolveUrl';
-import { WebAudioMedia } from './webaudio/WebAudioMedia';
-import { WebAudioContext } from './webaudio/WebAudioContext';
-import { WebAudioInstance } from './webaudio/WebAudioInstance';
+import { WebAudioMedia, WebAudioContext, WebAudioInstance } from './webaudio';
 
 /**
  * Options to use for creating sounds.
@@ -154,7 +152,7 @@ type CompleteCallback = (sound: Sound) => void;
 type SoundSpriteDataMap = {[id: string]: SoundSpriteData};
 
 /**
- * Sound represents a single piece of loaded media. When playing a sound {@link WebAudioInstance} objects
+ * Sound represents a single piece of loaded media. When playing a sound `WebAudioInstance` objects
  * are created. Properties such a `volume`, `pause`, `mute`, `speed`, etc will have an effect on all instances.
  * @class
  */

@@ -1,7 +1,6 @@
-import { Filter } from '../filters/Filter';
+import { Filter } from '../filters';
 import { LoadedCallback, Sound } from '../Sound';
-import { WebAudioContext } from '../webaudio/WebAudioContext';
-import { WebAudioInstance } from '../webaudio/WebAudioInstance';
+import { WebAudioContext, WebAudioInstance } from '../webaudio';
 
 /**
  * Interface represents either a WebAudio source or an HTML5 AudioElement source

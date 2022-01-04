@@ -1,5 +1,5 @@
-import { Filter } from './filters/Filter';
-import { WebAudioContext } from './webaudio/WebAudioContext';
+import { Filter } from './filters';
+import { WebAudioContext } from './webaudio';
 
 /**
  * Abstract class which SoundNodes and SoundContext

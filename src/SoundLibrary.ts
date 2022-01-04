@@ -1,7 +1,6 @@
-import { Filter } from './filters/Filter';
+import { Filter } from './filters';
 import { CompleteCallback, Options, PlayOptions, Sound } from './Sound';
-import { WebAudioContext } from './webaudio/WebAudioContext';
-import { WebAudioInstance } from './webaudio/WebAudioInstance';
+import { WebAudioContext, WebAudioInstance } from './webaudio';
 
 type SoundSourceMap = {[id: string]: Options | string | ArrayBuffer | HTMLAudioElement};
 type SoundMap = {[id: string]: Sound};

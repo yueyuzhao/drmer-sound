@@ -1,4 +1,4 @@
-import { Filter } from '../filters/Filter';
+import { Filter } from '../filters';
 import { IMedia } from '../interfaces';
 import { LoadedCallback, Sound } from '../Sound';
 import { WebAudioContext } from './WebAudioContext';
