@@ -32,7 +32,7 @@ h1 .logo {
     background-color: #14171d;
 }
 
-.hljs {
+.hljs, .CodeMirror {
     background: #38404e !important;
     border: 1px solid #465162;
     color: #919bac;
@@ -41,6 +41,7 @@ h1 .logo {
     font-size: 100% !important;
     line-height: 1.6 !important;
     cursor: text;
+    height: auto !important;
 }
 
 pre {
@@ -238,7 +239,7 @@ button.play {
     display:block;
     margin:10px auto;
 }
-.loop.play .stop, 
+.loop.play .stop,
 .loop.stop .play {
     display:none
 }
