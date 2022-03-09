@@ -2,7 +2,7 @@ import { Loader } from '@pixi/loaders';
 export * from './instance';
 import { SoundLoader } from './SoundLoader';
 import * as filters from './filters';
-import * as webaudio from './webaudio';
+export * from './webaudio';
 import * as utils from './utils';
 
 // Add the loader plugin
@@ -17,6 +17,5 @@ export * from './SoundSprite';
 
 export {
     filters,
-    webaudio,
     utils,
 };
