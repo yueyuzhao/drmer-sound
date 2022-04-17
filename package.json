@@ -43,21 +43,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://git.drmer.net/drmer/sound.git"
+    "url": "git+https://github.com/yueyuzhao/drmer-sound.git"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "dist/",
-    "pixi-sound.d.ts"
+    "dist/"
   ],
   "keywords": [
     "webaudio",
     "sound",
+    "drmer",
     "pixi"
   ],
-  "author": "Matt Karl @bigtimebuddy",
+  "author": "Matt Karl @bigtimebuddy, Yueyu Zhao donald@drmer.net",
   "license": "MIT",
   "pre-commit": [
     "lint",

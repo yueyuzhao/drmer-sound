@@ -486,8 +486,10 @@ class Sound
     {
         const options = {
             ...this.options
-        }
+        };
+
         options.source = this.media.buffer;
+
         return new Sound(new WebAudioMedia(), options);
     }
 
