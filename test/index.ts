@@ -94,6 +94,14 @@ describe(`PIXI.sound`, function ()
         expect(s).to.be.instanceof(Sound);
     });
 
+    it('should create a duplicate', function ()
+    {
+        const s = sound.find('alert-7').duplicate();
+
+        expect(s).to.not.be.undefined;
+        expect(s).to.be.instanceof(Sound);
+    });
+
     it('should play multiple at once', function ()
     {
         const s = sound.find('alert-12');

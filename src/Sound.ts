@@ -482,6 +482,15 @@ class Sound
         return sprite;
     }
 
+    public duplicate(): Sound
+    {
+        const options = {
+            ...this.options
+        }
+        options.source = this.media.buffer;
+        return new Sound(new WebAudioMedia(), options);
+    }
+
     /** Destructor, safer to use `SoundLibrary.remove(alias)` to remove this sound. */
     public destroy(): void
     {
