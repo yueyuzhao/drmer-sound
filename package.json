@@ -1,6 +1,6 @@
 {
   "name": "@drmer/sound",
-  "version": "4.1.0",
+  "version": "0.1.0",
   "description": "WebAudio API playback library with filters",
   "main": "dist/drmer-sound.cjs.js",
   "module": "dist/drmer-sound.esm.js",
