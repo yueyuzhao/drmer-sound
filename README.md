@@ -1,8 +1,6 @@
-# PixiJS Sound
+# Drmer Sound (original PixiJS Sound)
 
 WebAudio API playback library, with filters. Modern audio playback for modern browsers. 
-
-[![Node.js CI](https://github.com/pixijs/sound/workflows/Node.js%20CI/badge.svg)](https://github.com/pixijs/sound/actions?query=workflow%3A%22Node.js+CI%22) [![npm version](https://badge.fury.io/js/%40pixi%2Fsound.svg)](https://badge.fury.io/js/%40pixi%2Fsound)
 
 **Features**
 
@@ -30,11 +28,11 @@ WebAudio API playback library, with filters. Modern audio playback for modern br
 Installation is available by [NPM](https://npmjs.org):
 
 ```bash
-npm i @pixi/sound --save
+npm i @drmer/sound --save
 ```
 
 ```typescript
-import { sound } from '@pixi/sound';
+import { sound } from '@drmer/sound';
 
 sound.add('my-sound', 'path/to/file.mp3');
 sound.play('my-sound');
