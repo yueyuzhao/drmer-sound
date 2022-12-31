@@ -287,6 +287,7 @@ declare namespace filters {
         EqualizerFilter,
         DistortionFilter,
         StereoFilter,
+        Stereo2DFilter,
         ReverbFilter,
         MonoFilter,
         StreamFilter,
@@ -1330,6 +1331,34 @@ export declare interface SourceClone {
      * @type {GainNode}
      */
     gain: GainNode;
+}
+
+/**
+ * Filter for adding 2D Stereo panning.
+ *
+ * @class
+ * @memberof filters
+ */
+declare class Stereo2DFilter extends Filter {
+    /** The stereo panning node */
+    private _panner;
+    /** The amount of panning, -1 is left, 1 is right, 0 is centered */
+    private _panX;
+    /** The amount of panning, -1 is down, 1 is up, 0 is centered */
+    private _panY;
+    /**
+     * @param {number} panX - The amount of panning, -1 is left, 1 is right, 0 is centered.
+     * @param {number} panY - The amount of panning, -1 is down, 1 is up, 0 is centered.
+     */
+    constructor(panX?: number, panY?: number);
+    /** Set the amount of panning, where -1 is left, 1 is right, and 0 is centered */
+    set panX(value: number);
+    get panX(): number;
+    /** Set the amount of panning, where -1 is down, 1 is up, and 0 is centered */
+    set panY(value: number);
+    get panY(): number;
+    destroy(): void;
+    setup(): void;
 }
 
 /**

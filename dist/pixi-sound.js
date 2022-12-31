@@ -1,7 +1,7 @@
 /*!
- * @drmer/sound - v4.1.0
+ * @drmer/sound - v0.1.1
  * https://git.drmer.net/drmer/sound
- * Compiled Sun, 17 Apr 2022 12:28:35 UTC
+ * Compiled Sat, 31 Dec 2022 12:13:24 UTC
  *
  * @drmer/sound is licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license
@@ -2635,7 +2635,9 @@ this.PIXI.sound = (function (loaders, ticker, utils$1, core) {
                     this.context.setParamValue(this._stereo.pan, value);
                 }
                 else {
-                    this._panner.setPosition(value, 0, 1 - Math.abs(value));
+                    this._panner.positionX.value = value;
+                    this._panner.positionY.value = 0;
+                    this._panner.positionZ.value = 1 - Math.abs(value);
                 }
             },
             enumerable: false,
@@ -2666,6 +2668,74 @@ this.PIXI.sound = (function (loaders, ticker, utils$1, core) {
             this.pan = this._pan;
         };
         return StereoFilter;
+    }(Filter));
+
+    /**
+     * Filter for adding 2D Stereo panning.
+     *
+     * @class
+     * @memberof filters
+     */
+    var Stereo2DFilter = /** @class */ (function (_super) {
+        __extends(Stereo2DFilter, _super);
+        /**
+         * @param {number} panX - The amount of panning, -1 is left, 1 is right, 0 is centered.
+         * @param {number} panY - The amount of panning, -1 is down, 1 is up, 0 is centered.
+         */
+        function Stereo2DFilter(panX, panY) {
+            if (panX === void 0) { panX = 0; }
+            if (panY === void 0) { panY = 0; }
+            var _this = _super.call(this) || this;
+            _this._panX = panX;
+            _this._panY = panY;
+            return _this;
+        }
+        Object.defineProperty(Stereo2DFilter.prototype, "panX", {
+            get: function () {
+                return this._panX;
+            },
+            /** Set the amount of panning, where -1 is left, 1 is right, and 0 is centered */
+            set: function (value) {
+                this._panX = value;
+                if (!this.context) {
+                    return;
+                }
+                this._panner.positionX.value = value;
+                this._panner.positionZ.value = 1 - Math.abs(value);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Stereo2DFilter.prototype, "panY", {
+            get: function () {
+                return this._panY;
+            },
+            /** Set the amount of panning, where -1 is down, 1 is up, and 0 is centered */
+            set: function (value) {
+                this._panY = value;
+                if (!this.context) {
+                    return;
+                }
+                this._panner.positionY.value = value;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Stereo2DFilter.prototype.destroy = function () {
+            _super.prototype.destroy.call(this);
+            this._panner = null;
+        };
+        Stereo2DFilter.prototype.setup = function () {
+            var audioContext = this.context.audioContext;
+            var panner = audioContext.createPanner();
+            panner.panningModel = 'equalpower';
+            var destination = panner;
+            this.init(destination);
+            this._panner = panner;
+            this.panX = this._panX;
+            this.panY = this._panY;
+        };
+        return Stereo2DFilter;
     }(Filter));
 
     /**
@@ -2887,6 +2957,7 @@ this.PIXI.sound = (function (loaders, ticker, utils$1, core) {
         EqualizerFilter: EqualizerFilter,
         DistortionFilter: DistortionFilter,
         StereoFilter: StereoFilter,
+        Stereo2DFilter: Stereo2DFilter,
         ReverbFilter: ReverbFilter,
         MonoFilter: MonoFilter,
         StreamFilter: StreamFilter,

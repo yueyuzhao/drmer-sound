@@ -80,7 +80,7 @@ for (let i = 0; i < bands.length; i++)
 
 $('#panning').addEventListener('input', function ()
 {
-    stereo.pan = parseFloat(this.value);
+    stereo.panX = parseFloat(this.value);
 });
 
 $('#distortion').addEventListener('input', function ()
