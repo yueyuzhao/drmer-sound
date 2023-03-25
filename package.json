@@ -1,45 +1,31 @@
 {
   "name": "@drmer/sound",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "WebAudio API playback library with filters",
-  "main": "dist/drmer-sound.cjs.js",
-  "module": "dist/drmer-sound.esm.js",
-  "types": "dist/drmer-sound.d.ts",
-  "scripts": {
-    "test": "floss -p test --require ts-node/register -- --autoplay-policy=no-user-gesture-required",
-    "coverage": "nyc floss -p test --require ts-node/register -- --autoplay-policy=no-user-gesture-required",
-    "clean": "rimraf dist/**",
-    "start": "run-s watch",
-    "watch": "rollup -c  config/rollup.js --environment DEV --watch",
-    "lint": "eslint --ext .js --ext .ts test src examples/client --ignore-path .gitignore --max-warnings 0",
-    "lint:fix": "npm run lint -- --fix",
-    "types": "tsc -p tsconfig.json --noEmit",
-    "prebuild": "run-s clean lint types",
-    "build": "rollup -c config/rollup.js",
-    "postbuild": "run-s build:types bundle:types",
-    "build:prod": "cross-env NODE_ENV=production run-s build",
-    "prebuild:types": "rimraf .types_output/**",
-    "build:types": "tsc --declaration --emitDeclarationOnly --skipLibCheck --outDir .types_output",
-    "bundle:types": "api-extractor run --local",
-    "predocs": "rimraf docs/**",
-    "docs": "webdoc -c config/webdoc.json -r README.md",
-    "predeploy": "run-s docs",
-    "predeploy:ci": "rimraf deploy/**",
-    "deploy:ci": "mkdirp deploy && copyfiles \"{dist,examples,docs,coverage}/**\" deploy && copyfiles -f dist/drmer-sound.js* deploy",
-    "deploy": "gh-pages -d . -s \"{dist,examples,docs}/**\"",
-    "examples": "http-server . -a localhost -o",
-    "publish:patch": "npm version patch && run-s publish:skip",
-    "publish:minor": "npm version minor && run-s publish:skip",
-    "publish:major": "npm version major && run-s publish:skip",
-    "publish:skip": "run-s build:prod test && npm publish",
-    "postpublish": "run-s deploy && git push && git push --tags",
-    "prepack": "clean-package",
-    "postpack": "clean-package restore"
+  "main": "dist/drmer-sound.js",
+  "module": "dist/drmer-sound.mjs",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    }
   },
-  "engines": {
-    "node": ">=12",
-    "yarn": "please-use-npm",
-    "npm": ">=7"
+  "scripts": {
+    "test": "xs test",
+    "clean": "xs clean",
+    "start": "xs serve",
+    "watch": "xs watch",
+    "lint": "xs lint",
+    "lint:fix": "xs lint --fix",
+    "types": "xs types",
+    "build": "xs build",
+    "docs": "xs docs",
+    "deploy:ci": "xs build,docs",
+    "postdeploy:ci": "mkdirp deploy && copyfiles \"{dist,examples,docs}/**\" deploy && copyfiles -f dist/* deploy",
+    "deploy": "xs deploy",
+    "release": "xs release"
   },
   "repository": {
     "type": "git",
@@ -49,7 +35,9 @@
     "access": "public"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "lib/",
+    "global.d.ts"
   ],
   "keywords": [
     "webaudio",
@@ -75,40 +63,13 @@
     ]
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.19.3",
-    "@pixi/eslint-config": "^2.0.1",
-    "@pixi/webdoc-template": "^1.5.3",
-    "@rollup/plugin-typescript": "^8.0.0",
-    "@types/chai": "^4.2.16",
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^12.0.0",
-    "@types/offscreencanvas": "^2019.6.4",
-    "@webdoc/cli": "^1.2.0",
-    "chai": "^4.2.0",
-    "clean-package": "^1.0.1",
-    "copyfiles": "^2.1.0",
-    "cross-env": "^5.2.0",
-    "electron": "^12.0.0",
-    "eslint": "^7.23.0",
-    "floss": "^5.0.0",
-    "gh-pages": "^2.0.1",
-    "http-server": "^0.11.1",
-    "jsdoc": "^3.6.1",
-    "mkdirp": "^0.5.1",
-    "npm-run-all": "^4.1.5",
-    "nyc": "^14.1.0",
-    "pre-commit": "^1.2.2",
-    "rimraf": "^2.6.3",
-    "rollup": "^2.0.0",
-    "rollup-plugin-terser": "^7.0.0",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.0.0"
+    "@pixi/extension-scripts": "^1.8.0",
+    "copyfiles": "^2.4.1",
+    "mkdirp": "^1.0.4",
+    "pixi.js": "^7.0.0"
   },
   "peerDependencies": {
-    "@pixi/core": ">=5",
-    "@pixi/loaders": ">=5",
-    "@pixi/ticker": ">=5",
-    "@pixi/utils": ">=5"
+    "@pixi/core": "^7.0.0"
   },
   "eslintConfig": {
     "extends": [

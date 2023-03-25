@@ -1,12 +1,12 @@
 import { Filter } from './filters';
 import { SoundSprite, SoundSpriteData, SoundSprites } from './SoundSprite';
-import { resolveUrl } from './utils/resolveUrl';
 import { WebAudioMedia, WebAudioContext, WebAudioInstance } from './webaudio';
 
 /**
  * Options to use for creating sounds.
  */
-interface Options {
+interface Options
+{
     /**
      * `true` to immediately start preloading.
      * @type {boolean}
@@ -79,7 +79,8 @@ interface Options {
 /**
  * Options used for sound playback.
  */
-interface PlayOptions {
+interface PlayOptions
+{
     /**
      * Start time offset in seconds.
      * @type {number}
@@ -317,12 +318,6 @@ class Sound
         if (options.context === null)
         {
             options.context = new WebAudioContext();
-        }
-
-        // Resolve url in-case it has a special format
-        if (options.url)
-        {
-            options.url = resolveUrl(options.url);
         }
 
         Object.freeze(options);
@@ -586,7 +581,7 @@ class Sound
      *        has not yet loaded.
      */
     public play(source?: string | PlayOptions | CompleteCallback,
-                callback?: CompleteCallback): WebAudioInstance | Promise<WebAudioInstance>;
+        callback?: CompleteCallback): WebAudioInstance | Promise<WebAudioInstance>;
 
     // Overloaded function
     public play(source?: string | PlayOptions | CompleteCallback,

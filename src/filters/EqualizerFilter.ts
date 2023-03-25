@@ -1,12 +1,14 @@
 import { Filter } from './Filter';
 
-interface Band {
+interface Band
+{
     f: number;
     type: string;
     gain: number;
 }
 
-interface EqualizerOptions {
+interface EqualizerOptions
+{
     f32?: number;
     f64?: number;
     f125?: number;

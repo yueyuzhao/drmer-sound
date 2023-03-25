@@ -4,17 +4,14 @@ import {
     Sound,
     SoundLibrary,
     SoundSprite,
-    SoundLoader,
     filters,
-    utils
-} from './index';
+    utils } from './index';
 
 Object.defineProperties(sound,
     {
         Filterable: { get() { return Filterable; } },
         filters: { get() { return filters; } },
         Sound: { get() { return Sound; } },
-        SoundLoader: { get() { return SoundLoader; } },
         SoundLibrary: { get() { return SoundLibrary; } },
         SoundSprite: { get() { return SoundSprite; } },
         utils: { get() { return utils; } },
@@ -28,3 +25,4 @@ Object.defineProperties(sound,
  * @ignore
  */
 export default sound;
+

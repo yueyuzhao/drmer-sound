@@ -40,7 +40,9 @@ class StereoFilter extends Filter
         }
         else
         {
-            this._panner.setPosition(value, 0, 1 - Math.abs(value));
+            this._panner.positionX.value = value;
+            this._panner.positionY.value = 0;
+            this._panner.positionZ.value = 1 - Math.abs(value);
         }
     }
     get pan(): number

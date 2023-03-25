@@ -4,7 +4,8 @@ import { WebAudioContext } from './WebAudioContext';
 /**
  * Output for cloning source node.
  */
-interface SourceClone {
+interface SourceClone
+{
     /**
      * Cloned audio buffer source
      * @type {AudioBufferSourceNode}

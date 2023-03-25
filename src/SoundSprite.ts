@@ -4,7 +4,8 @@ import { WebAudioInstance } from './webaudio';
 /**
  * Data for adding new sound sprites.
  */
-interface SoundSpriteData {
+interface SoundSpriteData
+{
     /**
      * The start time in seconds.
      * @type {number}
@@ -30,7 +31,7 @@ type SoundSprites = {[id: string]: SoundSprite};
  * use the {@link Sound#addSprites} method.
  * @class
  * @example
- * import { sound } from '@pixi/sound';
+ * import { sound } from '@drmer/sound';
  * sound.add('alias', {
  *   url: 'path/to/file.ogg',
  *   sprites: {

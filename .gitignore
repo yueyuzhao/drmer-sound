@@ -9,3 +9,4 @@ node_modules
 .types_output
 .idea/
 /example.api.json
+/lib

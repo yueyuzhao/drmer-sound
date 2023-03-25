@@ -16,7 +16,7 @@ let PLAY_ID = 0;
  * Manages the playback of sounds. This is the main class for PixiJS Sound. If you're
  * using the browser-based bundled this is `PIXI.sound`. Otherwise, you can do this:
  * @example
- * import { sound } from '@pixi/sound';
+ * import { sound } from '@drmer/sound';
  *
  * // sound is an instance of SoundLibrary
  * sound.add('my-sound', 'path/to/file.mp3');
@@ -65,7 +65,7 @@ class SoundLibrary
      * for setting global planning or global effects.
      * **Only supported with WebAudio.**
      * @example
-     * import { sound, filters } from '@pixi/sound';
+     * import { sound, filters } from '@drmer/sound';
      * // Adds a filter to pan all output left
      * sound.filtersAll = [
      *     new filters.StereoFilter(-1)
